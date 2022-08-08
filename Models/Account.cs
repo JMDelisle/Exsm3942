@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassroomStart.CSharp2_Assignment_JeanMarc
+namespace ClassroomStart.Models
 {
-    internal class Class1
+    internal class Account
     {
     }
 }
