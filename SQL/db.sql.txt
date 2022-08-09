@@ -1,1 +1,42 @@
-﻿
+﻿DROP TABLE IF EXISTS Client;
+DROP TABLE IF EXISTS AccountType;
+DROP TABLE IF EXISTS Account;
+
+
+CREATE TABLE Client (
+c_id INT PRIMARY KEY AUTO_INCREMENT,
+c_firstname VARCHAR(50) NOT NULL,
+c_lastname VARCHAR(50) NOT NULL,
+c_birthdate DATE NOT NULL,
+c_homeaddress varchar(255),
+);
+
+CREATE TABLE AccountType (
+at_id INT PRIMARY KEY AUTO_INCREMENT,
+at_name VARCHAR(50) NOT NULL,
+at_interestrate DECIMAL(5,2)
+);
+
+CREATE TABLE Account (
+acc_id INT PRIMARY KEY AUTO_INCREMENT,
+acc_client_id INT NOT NULL,
+acc_type_id INT NOT NULL, 
+acc_balance DECIMAL(5,2) NOT NULL,
+acc_interestapplieddate DATETIME,
+acc_appliedinterest INT NOT NULL,
+acc_deposit DECIMAL NOT NULL,
+acc_withdraw DECIMAL NOT NULL
+);
+
+
+
+ALTER TABLE `account` ADD FOREIGN KEY (`acc_client_id`) REFERENCES `client`(`c_id`) ON DELETE RESTRICT ON UPDATE RESTRICT; 
+
+ALTER TABLE `account` ADD FOREIGN KEY (`acc_type_id`) REFERENCES `accounttype`(`at_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+---------------------- Not sure if we need the below for foreign key as it one to one -------------------------------------------------
+ALTER TABLE client ADD FOREIGN KEY(c_id) REFERENCES account(acc_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE AccountType ADD FOREIGN KEY (at_id) REFERENCES account(acc_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
