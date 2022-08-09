@@ -30,7 +30,21 @@ namespace ClassroomStart.Models
         [Column("c_homeaddress", TypeName = "varchar(255)")]
         public string? CHomeaddress { get; set; }
 
+        [Column("c_vipclient", TypeName = "1=1")]
 
+
+        [NotMapped]
+        public bool InterestRate
+        {
+            get
+            {
+                return 
+            }
+        }
+
+
+
+        [InverseProperty(nameof(Models.Account))]
         public virtual Account CIdNavigation { get; set; } = null!;
         public virtual ICollection<Account> Accounts { get; set; }
 

@@ -49,10 +49,6 @@ namespace ClassroomStart.Models
                     .HasColumnType("int(11)")
                     .HasColumnName("acc_id");
 
-                entity.Property(e => e.AccAppliedinterest)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("acc_appliedinterest");
-
                 entity.Property(e => e.AccBalance)
                     .HasPrecision(5, 2)
                     .HasColumnName("acc_balance");
@@ -60,10 +56,6 @@ namespace ClassroomStart.Models
                 entity.Property(e => e.AccClientId)
                     .HasColumnType("int(11)")
                     .HasColumnName("acc_client_id");
-
-                entity.Property(e => e.AccDeposit)
-                    .HasPrecision(10)
-                    .HasColumnName("acc_deposit");
 
                 entity.Property(e => e.AccInterestapplieddate)
                     .HasColumnType("datetime")
@@ -73,9 +65,6 @@ namespace ClassroomStart.Models
                     .HasColumnType("int(11)")
                     .HasColumnName("acc_type_id");
 
-                entity.Property(e => e.AccWithdraw)
-                    .HasPrecision(10)
-                    .HasColumnName("acc_withdraw");
 
                 entity.HasOne(d => d.AccClient)
                     .WithMany(p => p.Accounts)
@@ -88,6 +77,24 @@ namespace ClassroomStart.Models
                     .HasForeignKey(d => d.AccTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("account_ibfk_2");
+
+                entity.HasData(
+                    new Account[]
+                    {
+                    new Account() { AccId = 1, AccClientId = 1, AccTypeId = 1, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+
+                    new Account() { AccId = 2, AccClientId = 2, AccTypeId = 2, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+
+                    new Account() { AccId = 3, AccClientId = 3, AccTypeId = 3, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+
+                    new Account() { AccId = 4, AccClientId = 4, AccTypeId = 4, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+
+                    new Account() { AccId = 5, AccClientId = 5, AccTypeId = 5, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+
+                    new Account() { AccId = 6, AccClientId = 6, AccTypeId = 6, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+
+                    new Account() { AccId = 7, AccClientId = 7, AccTypeId = 7, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) }
+                     });
             });
 
             modelBuilder.Entity<Accounttype>(entity =>
@@ -108,6 +115,13 @@ namespace ClassroomStart.Models
                 entity.Property(e => e.AtName)
                     .HasMaxLength(50)
                     .HasColumnName("at_name");
+
+                entity.HasData(
+                    new Accounttype[]
+                    {
+                        new Accounttype() { AtId = 1, AtName = "Jorge Smith", AtInterestrate = 75m}
+                    });
+
             });
 
             modelBuilder.Entity<Client>(entity =>
