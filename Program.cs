@@ -1,11 +1,13 @@
-﻿// Use our models namespace so we have access to the models and the dbcontext.
-using ClassroomStart.Models;
-using Microsoft.EntityFrameworkCore;
+﻿Console.WriteLine("Test"); 
+
+// Use our models namespace so we have access to the models and the dbcontext.
+
 
 
 // SELECT Example
 // Any time we want to access the database, if we wrap it in a using statement it ensures that when we are done, the connection isn't hanging open.
-using (DatabaseContext context = new DatabaseContext())
+/*
+  using (DatabaseContext context = new DatabaseContext())
 {
     foreach (Product product in context.Products.ToList())
     {
@@ -68,3 +70,4 @@ using (DatabaseContext context = new DatabaseContext())
 
     context.SaveChanges();
 }
+*/

@@ -8,6 +8,41 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassroomStart.Models
 {
+    [Table("client")]
+    public class Client
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("c_id", TypeName = "int(11)")]
+        public int CId { get; set; }
+
+        [Column("c_firstname", TypeName = "varchar(50)")]
+        [StringLength(30)]
+        public string CFirstname { get; set; } = null!;
+
+        [Column("c_lastname", TypeName = "varchar(50)")]
+        [StringLength(30)]
+        public string CLastname { get; set; } = null!;
+
+        [Column("c_birthdate", TypeName = "date")]
+        public DateOnly CBirthdate { get; set; }
+
+        [Column("c_homeaddress", TypeName = "varchar(255)")]
+        public string? CHomeaddress { get; set; }
+
+
+        public virtual Account CIdNavigation { get; set; } = null!;
+        public virtual ICollection<Account> Accounts { get; set; }
+
+    }
+}
+
+
+
+
+/*
+namespace ClassroomStart.Models
+{
     public partial class Client
     {
         public Client()
@@ -25,3 +60,4 @@ namespace ClassroomStart.Models
         public virtual ICollection<Account> Accounts { get; set; }
     }
 }
+*/
