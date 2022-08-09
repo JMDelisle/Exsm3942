@@ -8,20 +8,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassroomStart.Models
 {
-    public partial class Client
+    public partial class Accounttype
     {
-        public Client()
+        public Accounttype()
         {
             Accounts = new HashSet<Account>();
         }
 
-        public int CId { get; set; }
-        public string CFirstname { get; set; } = null!;
-        public string CLastname { get; set; } = null!;
-        public DateOnly CBirthdate { get; set; }
-        public string? CHomeaddress { get; set; }
+        public int AtId { get; set; }
+        public string AtName { get; set; } = null!;
+        public decimal? AtInterestrate { get; set; }
 
-        public virtual Account CIdNavigation { get; set; } = null!;
         public virtual ICollection<Account> Accounts { get; set; }
     }
 }
