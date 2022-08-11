@@ -83,17 +83,17 @@ namespace ClassroomStart.Models
                     {
                     new Account() { AccId = 1, AccClientId = 1, AccTypeId = 1, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
 
-                    new Account() { AccId = 2, AccClientId = 2, AccTypeId = 2, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+                  //  new Account() { AccId = 2, AccClientId = 2, AccTypeId = 2, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
 
-                    new Account() { AccId = 3, AccClientId = 3, AccTypeId = 3, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+                 //  new Account() { AccId = 3, AccClientId = 3, AccTypeId = 3, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
 
-                    new Account() { AccId = 4, AccClientId = 4, AccTypeId = 4, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+                  //  new Account() { AccId = 4, AccClientId = 4, AccTypeId = 4, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
 
-                    new Account() { AccId = 5, AccClientId = 5, AccTypeId = 5, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+                   // new Account() { AccId = 5, AccClientId = 5, AccTypeId = 5, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
 
-                    new Account() { AccId = 6, AccClientId = 6, AccTypeId = 6, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+                 //  new Account() { AccId = 6, AccClientId = 6, AccTypeId = 6, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
 
-                    new Account() { AccId = 7, AccClientId = 7, AccTypeId = 7, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) }
+                   // new Account() { AccId = 7, AccClientId = 7, AccTypeId = 7, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) }
                      });
             });
 
@@ -119,10 +119,13 @@ namespace ClassroomStart.Models
                 entity.HasData(
                     new Accounttype[]
                     {
-                        new Accounttype() { AtId = 1, AtName = "Jorge Smith", AtInterestrate = 75m}
+                        new Accounttype() { AtId = 1, AtName = "Standard Saving", AtInterestrate = 0.75m}
                     });
-
             });
+
+
+
+
 
             modelBuilder.Entity<Client>(entity =>
             {
@@ -136,7 +139,8 @@ namespace ClassroomStart.Models
                     .ValueGeneratedOnAdd()
                     .HasColumnName("c_id");
 
-                entity.Property(e => e.CBirthdate).HasColumnName("c_birthdate");
+                entity.Property(e => e.CBirthdate)
+                    .HasColumnName("c_birthdate");
 
                 entity.Property(e => e.CFirstname)
                     .HasMaxLength(50)
@@ -155,6 +159,16 @@ namespace ClassroomStart.Models
                     .HasForeignKey<Client>(d => d.CId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("client_ibfk_1");
+
+                entity.HasData(
+                   new Client[]
+                   {
+                        new Client() { CId = 1, CFirstname = "Jorge", CLastname = "Smith", CBirthdate = new DateTime (1968, 12, 31), CHomeaddress = "123 Applewood Way"},
+                        new Client() { CId = 2, CFirstname = "Zac", CLastname = "Ingram", CBirthdate = new DateTime (1968, 12, 31), CHomeaddress = "123 Applewood Way"},
+                        new Client() { CId = 3, CFirstname = "Charles", CLastname = "Sheen", CBirthdate = new DateTime (1968, 12, 31), CHomeaddress = "123 Applewood Way"},
+                        new Client() { CId = 4, CFirstname = "Callie", CLastname = "Whittington", CBirthdate = new DateTime (1968, 12, 31), CHomeaddress = "123 Applewood Way"}
+
+                   });
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -25,7 +25,7 @@ namespace ClassroomStart.Models
         public string CLastname { get; set; } = null!;
 
         [Column("c_birthdate", TypeName = "date")]
-        public DateOnly CBirthdate { get; set; }
+        public DateTime CBirthdate { get; set; }
 
         [Column("c_homeaddress", TypeName = "varchar(255)")]
         public string? CHomeaddress { get; set; }
@@ -34,17 +34,15 @@ namespace ClassroomStart.Models
 
 
         [NotMapped]
-        public bool InterestRate
+        public bool VIPClient
         {
             get
             {
-                return 
+                return Accounts.Sum(s => s.AccBalance) > 100000;
             }
         }
 
 
-
-        [InverseProperty(nameof(Models.Account))]
         public virtual Account CIdNavigation { get; set; } = null!;
         public virtual ICollection<Account> Accounts { get; set; }
 

@@ -23,7 +23,7 @@ namespace ClassroomStart.Models
         public int AccTypeId { get; set; }
 
         [Column("acc_balance", TypeName = "decimals(5,2)")]
-        public decimal AccBalance { get; set; }
+        public decimal AccBalance { get; private set; }
 
         [Column("acc_interestapplieddate", TypeName = "datetime")]
         public DateTime? AccInterestapplieddate { get; set; }
@@ -36,6 +36,32 @@ namespace ClassroomStart.Models
 
         [Column("acc_withdraw", TypeName = "decimal(10,0)")]
         public decimal AccWithdraw { get; set; }
+
+
+        public decimal Deposit(decimal amount)
+        {
+            AccBalance = AccBalance + (amount);
+            return AccBalance;
+        }
+
+        public decimal Withdraw(decimal amount)
+        {
+            AccBalance = AccBalance - (amount);
+            return AccBalance;
+        }
+
+        public decimal ApplyInterest()
+        {
+            if(Client.VIPClient == true)
+            {
+                AccType.AtInterestrate += 1
+            }
+            decimal total = AccBalance
+
+
+        }
+
+
 
         public virtual Client AccClient { get; set; } = null!;
         public virtual Accounttype AccType { get; set; } = null!;
