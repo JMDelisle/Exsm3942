@@ -140,7 +140,6 @@ namespace ClassroomStart.Models
 
                 entity.Property(e => e.CId)
                     .HasColumnType("int(11)")
-                    .ValueGeneratedOnAdd()
                     .HasColumnName("c_id");
 
                 entity.Property(e => e.CBirthdate)
