@@ -11,6 +11,14 @@ namespace ClassroomStart.Models
     [Table("accounttype")]
     public class Accounttype
     {
+
+        public Accounttype (string atName, decimal atInterestrate)
+        {
+            
+            AtName = atName;
+            AtInterestrate = atInterestrate;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("at_id", TypeName = "int(11)")]
@@ -23,9 +31,11 @@ namespace ClassroomStart.Models
 
         [Column("at_interestrate", TypeName = "decimal(5,2)")]
         [Required]
-        public decimal? AtInterestrate { get; set; }
+        public decimal AtInterestrate { get; set; }
 
 
+
+        [InverseProperty(nameof(Models.Account.AccType))]
         public virtual ICollection<Account> Accounts { get; set; }
 
     }

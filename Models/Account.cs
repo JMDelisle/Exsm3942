@@ -11,6 +11,15 @@ namespace ClassroomStart.Models
     [Table("account")]
     public class Account
     {
+
+        public Account(int accClientId, int accTypeId, decimal accBalance, DateTime? accInterestapplieddate)
+        {
+            AccClientId = accClientId;
+            AccTypeId = accTypeId;
+            AccBalance = accBalance;
+            AccInterestapplieddate = accInterestapplieddate;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("acc_id", TypeName = "int(11)")]
@@ -23,7 +32,7 @@ namespace ClassroomStart.Models
         public int AccTypeId { get; set; }
 
         [Column("acc_balance", TypeName = "decimals(5,2)")]
-        public decimal AccBalance { get; private set; }
+        public decimal AccBalance { get;  set; }
 
         [Column("acc_interestapplieddate", TypeName = "datetime")]
         public DateTime? AccInterestapplieddate { get; set; }
@@ -46,24 +55,41 @@ namespace ClassroomStart.Models
 
         public decimal Withdraw(decimal amount)
         {
-            AccBalance = AccBalance - (amount);
+            try
+            {
+                if(amount < AccBalance)
+                    AccBalance-=amount;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Insuffient funds:" + ex.Message);
+            }
             return AccBalance;
         }
 
-        public decimal ApplyInterest()
-        {
-            if(Client.VIPClient == true)
+
+
+          public decimal ApplyInterest()
+          {
+              if(Client.VIPClient == true)
+              {
+                AccBalance += (AccBalance * ((AccType.AtInterestrate + 1) / 100));
+              }
+              else
             {
-                AccType.AtInterestrate += 1
+                AccBalance -= (AccBalance * ((AccType.AtInterestrate + 1) / 100));
             }
-            decimal total = AccBalance
+            return AccBalance;
+          } 
 
 
-        }
 
 
 
+        [ForeignKey(nameof(AccClientId))]
         public virtual Client AccClient { get; set; } = null!;
+        
+        [ForeignKey(nameof(AccTypeId))]
         public virtual Accounttype AccType { get; set; } = null!;
         public virtual Client Client { get; set; } = null!;
 

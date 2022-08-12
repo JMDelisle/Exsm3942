@@ -11,6 +11,14 @@ namespace ClassroomStart.Models
     [Table("client")]
     public class Client
     {
+        public Client (string cFirstname, string cLastname, DateTime cBirthdate, string cHomeaddress)
+        {
+            CFirstname = cFirstname;
+            CLastname = cLastname;
+            CBirthdate = cBirthdate;
+            CHomeaddress = cHomeaddress;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("c_id", TypeName = "int(11)")]
@@ -43,7 +51,7 @@ namespace ClassroomStart.Models
         }
 
 
-        public virtual Account CIdNavigation { get; set; } = null!;
+      //  public virtual Account CIdNavigation { get; set; } = null!;
         public virtual ICollection<Account> Accounts { get; set; }
 
     }

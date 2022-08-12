@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ClassroomStart.Models;
+using System.Security.Cryptography;
 
 namespace ClassroomStart.Models
 {
@@ -80,18 +81,18 @@ namespace ClassroomStart.Models
 
                 entity.HasData(
                     new Account[]
-                    {
-                    new Account() { AccId = 1, AccClientId = 1, AccTypeId = 1, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+                    {          //ACCID, ACCClientID, AccBalance, InterestDateApplied!
+                    new Account (-1, -1, 165000m, new DateTime (1979, 08, 03)) {AccId=-1},
 
-                  //  new Account() { AccId = 2, AccClientId = 2, AccTypeId = 2, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+                    new Account (-2, -1, 25000m, new DateTime (2010, 02, 14)) {AccId=-2},
 
-                 //  new Account() { AccId = 3, AccClientId = 3, AccTypeId = 3, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+                    new Account (-1, -2, 99000m, new DateTime (2015, 01, 29)) {AccId=-3},
 
-                  //  new Account() { AccId = 4, AccClientId = 4, AccTypeId = 4, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+                    new Account (-2, -2, 5000m, new DateTime (2020, 10, 25)) {AccId=-4},
 
-                   // new Account() { AccId = 5, AccClientId = 5, AccTypeId = 5, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+                    new Account (-2, -3, 345000m, new DateTime (2018, 04, 28)) {AccId=-5},
 
-                 //  new Account() { AccId = 6, AccClientId = 6, AccTypeId = 6, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) },
+                    new Account (-1, -3, 109656, new DateTime (2004, 06, 28)) {AccId=-6},
 
                    // new Account() { AccId = 7, AccClientId = 7, AccTypeId = 7, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) }
                      });
@@ -119,7 +120,10 @@ namespace ClassroomStart.Models
                 entity.HasData(
                     new Accounttype[]
                     {
-                        new Accounttype() { AtId = 1, AtName = "Standard Saving", AtInterestrate = 0.75m}
+                        new Accounttype("Standard Saving", 0.75m){ AtId = -1},
+                        new Accounttype("Standard Saving", 3.69m){ AtId = -2},
+                        new Accounttype("Standard Saving", 1.25m){ AtId = -3}
+
                     });
             });
 
@@ -154,19 +158,20 @@ namespace ClassroomStart.Models
                     .HasMaxLength(50)
                     .HasColumnName("c_lastname");
 
-                entity.HasOne(d => d.CIdNavigation)
-                    .WithOne(p => p.Client)
-                    .HasForeignKey<Client>(d => d.CId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("client_ibfk_1");
-
+                /*       THIS WAS AN EXTRA KEY FROM XAMPP APPARENTLY, DON'T NEED IT.
+                 *       entity.HasOne(d => d.CIdNavigation)
+                           .WithOne(p => p.Client)
+                           .HasForeignKey<Client>(d => d.CId)
+                           .OnDelete(DeleteBehavior.ClientSetNull)
+                           .HasConstraintName("client_ibfk_1");
+                */
                 entity.HasData(
                    new Client[]
                    {
-                        new Client() { CId = 1, CFirstname = "Jorge", CLastname = "Smith", CBirthdate = new DateTime (1968, 12, 31), CHomeaddress = "123 Applewood Way"},
-                        new Client() { CId = 2, CFirstname = "Zac", CLastname = "Ingram", CBirthdate = new DateTime (1968, 12, 31), CHomeaddress = "123 Applewood Way"},
-                        new Client() { CId = 3, CFirstname = "Charles", CLastname = "Sheen", CBirthdate = new DateTime (1968, 12, 31), CHomeaddress = "123 Applewood Way"},
-                        new Client() { CId = 4, CFirstname = "Callie", CLastname = "Whittington", CBirthdate = new DateTime (1968, 12, 31), CHomeaddress = "123 Applewood Way"}
+                        new Client ("Borat","Sagdiyev", DateTime.Parse("04-19-1965"), "12345-123 St North, Cincinatti, OH, 87542"){CId=-1},                      
+                        new Client ("Zac", "Ingram", new DateTime (1968, 12, 31), "456 Pecanwood Way"){CId=-2},
+                        new Client ("Charles", "Sheen", new DateTime (1968, 12, 31),"789 Maplewood Way"){CId=-3},
+                        new Client ("Callie", "Whittington", new DateTime (1968, 12, 31),  "012 Cedarwood Way"){CId=-4}
 
                    });
             });

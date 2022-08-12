@@ -1,6 +1,9 @@
 ﻿using ClassroomStart.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using (DatabaseContext context = new DatabaseContext())
-{
-    foreach(Account account in context.Accounts) Console.WriteLine(account.AccBalance + " current balance"+ account.AccAppliedinterest);
-}
+
+Console.WriteLine("Testing");
