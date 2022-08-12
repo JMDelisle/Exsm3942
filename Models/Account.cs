@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 namespace ClassroomStart.Models
 {
     [Table("account")]
-    public class Account
+    public partial class Account
     {
-
-        public Account(int accClientId, int accTypeId, decimal accBalance, DateTime? accInterestapplieddate)
+        public Account(int accClientid, int accTypeId, decimal accBalance, DateTime accInterestapplieddate)
         {
-            AccClientId = accClientId;
+            AccClientid = accClientid;
             AccTypeId = accTypeId;
             AccBalance = accBalance;
             AccInterestapplieddate = accInterestapplieddate;
@@ -26,25 +26,16 @@ namespace ClassroomStart.Models
         public int AccId { get; set; }
 
         [Column("acc_client_id", TypeName = "int(11)")]
-        public int AccClientId { get; set; }
+        public int AccClientid { get; set; }
 
         [Column("acc_type_id", TypeName = "int(11)")]
         public int AccTypeId { get; set; }
 
         [Column("acc_balance", TypeName = "decimals(5,2)")]
-        public decimal AccBalance { get;  set; }
+        public decimal AccBalance { get; set; }
 
         [Column("acc_interestapplieddate", TypeName = "datetime")]
-        public DateTime? AccInterestapplieddate { get; set; }
-
-        [Column("acc_appliedinterest", TypeName = "int(11)")]
-        public int AccAppliedinterest { get; set; }
-
-        [Column("acc_deposit", TypeName = "decimal(10,0)")]
-        public decimal AccDeposit { get; set; }
-
-        [Column("acc_withdraw", TypeName = "decimal(10,0)")]
-        public decimal AccWithdraw { get; set; }
+        public DateTime AccInterestapplieddate { get; set; }
 
 
         public decimal Deposit(decimal amount)
@@ -57,8 +48,8 @@ namespace ClassroomStart.Models
         {
             try
             {
-                if(amount < AccBalance)
-                    AccBalance-=amount;
+                if (amount < AccBalance)
+                    AccBalance -= amount;
             }
             catch (Exception ex)
             {
@@ -69,56 +60,23 @@ namespace ClassroomStart.Models
 
 
 
-          public decimal ApplyInterest()
-          {
-              if(Client.VIPClient == true)
-              {
+        public decimal ApplyInterest()
+        {
+            if (Client.VIPClient == true)
+            {
                 AccBalance += (AccBalance * ((AccType.AtInterestrate + 1) / 100));
-              }
-              else
+            }
+            else
             {
                 AccBalance -= (AccBalance * ((AccType.AtInterestrate + 1) / 100));
             }
             return AccBalance;
-          } 
+        }
 
-
-
-
-
-        [ForeignKey(nameof(AccClientId))]
+        [ForeignKey(nameof(AccClientid))]
         public virtual Client AccClient { get; set; } = null!;
-        
+
         [ForeignKey(nameof(AccTypeId))]
         public virtual Accounttype AccType { get; set; } = null!;
-        public virtual Client Client { get; set; } = null!;
-
     }
 }
-
-
-
-
-
-
-
-/*
-namespace ClassroomStart.Models
-{
-    public partial class Account
-    {
-        public int AccId { get; set; }
-        public int AccClientId { get; set; }
-        public int AccTypeId { get; set; }
-        public decimal AccBalance { get; set; }
-        public DateTime? AccInterestapplieddate { get; set; }
-        public int AccAppliedinterest { get; set; }
-        public decimal AccDeposit { get; set; }
-        public decimal AccWithdraw { get; set; }
-
-        public virtual Client AccClient { get; set; } = null!;
-        public virtual Accounttype AccType { get; set; } = null!;
-        public virtual Client Client { get; set; } = null!;
-    }
-}
-*/

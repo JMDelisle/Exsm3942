@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ClassroomStart.Models;
-using System.Security.Cryptography;
 
-namespace ClassroomStart.Models
+namespace ClassroomStart.Data
 {
     public partial class DatabaseContext : DbContext
     {
@@ -13,7 +12,8 @@ namespace ClassroomStart.Models
         {
         }
 
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        public DatabaseContext(DbContextOptions<DatabaseContext> options)
+            : base(options)
         {
         }
 
@@ -42,7 +42,7 @@ namespace ClassroomStart.Models
 
                 entity.ToTable("account");
 
-                entity.HasIndex(e => e.AccClientId, "acc_client_id");
+                entity.HasIndex(e => e.AccClientid, "acc_clientid");
 
                 entity.HasIndex(e => e.AccTypeId, "acc_type_id");
 
@@ -54,22 +54,19 @@ namespace ClassroomStart.Models
                     .HasPrecision(5, 2)
                     .HasColumnName("acc_balance");
 
-                entity.Property(e => e.AccClientId)
+                entity.Property(e => e.AccClientid)
                     .HasColumnType("int(11)")
-                    .HasColumnName("acc_client_id");
+                    .HasColumnName("acc_clientid");
 
-                entity.Property(e => e.AccInterestapplieddate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("acc_interestapplieddate");
+                entity.Property(e => e.AccInterestapplieddate).HasColumnName("acc_interestapplieddate");
 
                 entity.Property(e => e.AccTypeId)
                     .HasColumnType("int(11)")
                     .HasColumnName("acc_type_id");
 
-
                 entity.HasOne(d => d.AccClient)
                     .WithMany(p => p.Accounts)
-                    .HasForeignKey(d => d.AccClientId)
+                    .HasForeignKey(d => d.AccClientid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("account_ibfk_1");
 
@@ -92,91 +89,87 @@ namespace ClassroomStart.Models
 
                     new Account (-2, -3, 345000m, new DateTime (2018, 04, 28)) {AccId=-5},
 
-                    new Account (-1, -3, 109656, new DateTime (2004, 06, 28)) {AccId=-6},
+                    new Account (-1, -3, 109656, new DateTime (2004, 06, 28)) {AccId=-6}
 
-                   // new Account() { AccId = 7, AccClientId = 7, AccTypeId = 7, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) }
-                     });
+                                      // new Account() { AccId = 7, AccClientId = 7, AccTypeId = 7, AccBalance = 80000.00m, AccInterestapplieddate = new DateTime(2020, 08, 16) }
+                                   });
+
             });
 
-            modelBuilder.Entity<Accounttype>(entity =>
-            {
-                entity.HasKey(e => e.AtId)
-                    .HasName("PRIMARY");
+                modelBuilder.Entity<Accounttype>(entity =>
+                {
+                    entity.HasKey(e => e.AtId)
+                        .HasName("PRIMARY");
 
-                entity.ToTable("accounttype");
+                    entity.ToTable("accounttype");
 
-                entity.Property(e => e.AtId)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("at_id");
+                    entity.Property(e => e.AtId)
+                        .HasColumnType("int(11)")
+                        .HasColumnName("at_id");
 
-                entity.Property(e => e.AtInterestrate)
-                    .HasPrecision(5, 2)
-                    .HasColumnName("at_interestrate");
+                    entity.Property(e => e.AtInterestrate)
+                        .HasPrecision(5, 2)
+                        .HasColumnName("at_interestrate");
 
-                entity.Property(e => e.AtName)
-                    .HasMaxLength(50)
-                    .HasColumnName("at_name");
+                    entity.Property(e => e.AtName)
+                        .HasMaxLength(50)
+                        .HasColumnName("at_name");
 
-                entity.HasData(
-                    new Accounttype[]
-                    {
+
+                    entity.HasData(
+                  new Accounttype[]
+                  {
                         new Accounttype("Standard Saving", 0.75m){ AtId = -1},
                         new Accounttype("Standard Saving", 3.69m){ AtId = -2},
                         new Accounttype("Standard Saving", 1.25m){ AtId = -3}
 
-                    });
-            });
+                  });
 
 
 
+                });
+
+                modelBuilder.Entity<Client>(entity =>
+                {
+                    entity.HasKey(e => e.CId)
+                        .HasName("PRIMARY");
+
+                    entity.ToTable("client");
+
+                    entity.Property(e => e.CId)
+                        .HasColumnType("int(11)")
+                        .HasColumnName("c_id");
+
+                    entity.Property(e => e.CBirthdate).HasColumnName("c_birthdate");
+
+                    entity.Property(e => e.CFirstname)
+                        .HasMaxLength(50)
+                        .HasColumnName("c_firstname");
+
+                    entity.Property(e => e.CHomeaddress)
+                        .HasMaxLength(255)
+                        .HasColumnName("c_homeaddress");
+
+                    entity.Property(e => e.CLastname)
+                        .HasMaxLength(50)
+                        .HasColumnName("c_lastname");
 
 
-            modelBuilder.Entity<Client>(entity =>
-            {
-                entity.HasKey(e => e.CId)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("client");
-
-                entity.Property(e => e.CId)
-                    .HasColumnType("int(11)")
-                    .HasColumnName("c_id");
-
-                entity.Property(e => e.CBirthdate)
-                    .HasColumnName("c_birthdate");
-
-                entity.Property(e => e.CFirstname)
-                    .HasMaxLength(50)
-                    .HasColumnName("c_firstname");
-
-                entity.Property(e => e.CHomeaddress)
-                    .HasMaxLength(255)
-                    .HasColumnName("c_homeaddress");
-
-                entity.Property(e => e.CLastname)
-                    .HasMaxLength(50)
-                    .HasColumnName("c_lastname");
-
-                /*       THIS WAS AN EXTRA KEY FROM XAMPP APPARENTLY, DON'T NEED IT.
-                 *       entity.HasOne(d => d.CIdNavigation)
-                           .WithOne(p => p.Client)
-                           .HasForeignKey<Client>(d => d.CId)
-                           .OnDelete(DeleteBehavior.ClientSetNull)
-                           .HasConstraintName("client_ibfk_1");
-                */
-                entity.HasData(
-                   new Client[]
-                   {
-                        new Client ("Borat","Sagdiyev", DateTime.Parse("04-19-1965"), "12345-123 St North, Cincinatti, OH, 87542"){CId=-1},                      
+                    entity.HasData(
+                                      new Client[]
+                                      {
+                        new Client ("Borat","Sagdiyev", new DateTime (1955, 04, 16), "12345-123 St North, Cincinatti, OH, 87542"){CId=-1},
                         new Client ("Zac", "Ingram", new DateTime (1968, 12, 31), "456 Pecanwood Way"){CId=-2},
                         new Client ("Charles", "Sheen", new DateTime (1968, 12, 31),"789 Maplewood Way"){CId=-3},
                         new Client ("Callie", "Whittington", new DateTime (1968, 12, 31),  "012 Cedarwood Way"){CId=-4}
 
-                   });
-            });
+                                      });
 
-            OnModelCreatingPartial(modelBuilder);
-        }
+
+                });
+
+                OnModelCreatingPartial(modelBuilder);
+            }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }

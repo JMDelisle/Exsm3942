@@ -6,12 +6,21 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 namespace ClassroomStart.Models
 {
     [Table("client")]
-    public class Client
+    public partial class Client
     {
-        public Client (string cFirstname, string cLastname, DateTime cBirthdate, string cHomeaddress)
+
+       
+
+        public Client()
+        {
+            Accounts = new HashSet<Account>();
+        }
+
+        public Client(string cFirstname, string cLastname, DateTime cBirthdate, string cHomeaddress)
         {
             CFirstname = cFirstname;
             CLastname = cLastname;
@@ -19,6 +28,7 @@ namespace ClassroomStart.Models
             CHomeaddress = cHomeaddress;
         }
 
+        public static bool VIPClient { get; internal set; }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("c_id", TypeName = "int(11)")]
@@ -32,52 +42,17 @@ namespace ClassroomStart.Models
         [StringLength(30)]
         public string CLastname { get; set; } = null!;
 
-        [Column("c_birthdate", TypeName = "date")]
+        [Column("c_birthdate", TypeName = "datetime")]
         public DateTime CBirthdate { get; set; }
 
         [Column("c_homeaddress", TypeName = "varchar(255)")]
-        public string? CHomeaddress { get; set; }
-
-        [Column("c_vipclient", TypeName = "1=1")]
-
-
-        [NotMapped]
-        public bool VIPClient
-        {
-            get
-            {
-                return Accounts.Sum(s => s.AccBalance) > 100000;
-            }
-        }
-
-
-      //  public virtual Account CIdNavigation { get; set; } = null!;
-        public virtual ICollection<Account> Accounts { get; set; }
-
-    }
-}
+        public string CHomeaddress { get; set; } = null!;
 
 
 
 
-/*
-namespace ClassroomStart.Models
-{
-    public partial class Client
-    {
-        public Client()
-        {
-            Accounts = new HashSet<Account>();
-        }
 
-        public int CId { get; set; }
-        public string CFirstname { get; set; } = null!;
-        public string CLastname { get; set; } = null!;
-        public DateOnly CBirthdate { get; set; }
-        public string? CHomeaddress { get; set; }
 
-        public virtual Account CIdNavigation { get; set; } = null!;
         public virtual ICollection<Account> Accounts { get; set; }
     }
 }
-*/
