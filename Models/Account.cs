@@ -32,7 +32,7 @@ namespace ClassroomStart.Models
         public int AccTypeId { get; set; }
 
         [Column("acc_balance", TypeName = "decimals(5,2)")]
-        public decimal AccBalance { get; set; }
+        public decimal AccBalance { get; private set; }
 
         [Column("acc_interestapplieddate", TypeName = "datetime")]
         public DateTime AccInterestapplieddate { get; set; }
@@ -62,7 +62,7 @@ namespace ClassroomStart.Models
 
         public decimal ApplyInterest()
         {
-            if (Client.VIPClient == true)
+            if (Client.GetVIPClient())
             {
                 AccBalance += (AccBalance * ((AccType.AtInterestrate + 1) / 100));
             }

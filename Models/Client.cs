@@ -28,7 +28,18 @@ namespace ClassroomStart.Models
             CHomeaddress = cHomeaddress;
         }
 
-        public static bool VIPClient { get; internal set; }
+        private static bool vIPClient;
+
+        public static bool GetVIPClient()
+        {
+            return vIPClient;
+        }
+
+        internal static void SetVIPClient(bool value)
+        {
+            vIPClient = value;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("c_id", TypeName = "int(11)")]
@@ -49,9 +60,14 @@ namespace ClassroomStart.Models
         public string CHomeaddress { get; set; } = null!;
 
 
-
-
-
+        [NotMapped]
+        public bool VIPClient
+        {
+            get
+            {
+                return Accounts.Sum(s => s.AccBalance) > 100000;
+            }
+        }
 
         public virtual ICollection<Account> Accounts { get; set; }
     }
